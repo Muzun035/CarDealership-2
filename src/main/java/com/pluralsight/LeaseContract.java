@@ -14,8 +14,9 @@ public class LeaseContract extends Contract {
         this.leaseFee = vehicleSold.getPrice() * LEASE_FEE_RATE;
     }    @Override
     public double getTotalPrice() {
-        return (getVehicleSold().getPrice() - expectedEndingValue) + leaseFee;
-    }
+        double totalPrice = (getVehicle().getPrice() - expectedEndingValue) + leaseFee;
+        System.out.println("Calculating total price for lease contract: " + totalPrice);
+        return totalPrice;    }
 
     @Override
     public double getMonthlyPayment() {
