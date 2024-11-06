@@ -1,6 +1,19 @@
 package com.pluralsight;
 
-public class SalesContract {
+public class SalesContract extends Contract {
+    private static final double SALES_TAX_RATE = 0.05;
+    private static final double RECORDING_FEE = 100.0;
+    private double processingFee;
+    private boolean financeOption;
+    private double salesTaxAmount;
+
+    // Constructor
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean financeOption) {
+        super(date, customerName, customerEmail, vehicleSold);
+        this.financeOption = financeOption;
+        this.processingFee = vehicleSold.getPrice() < 10000 ? 295.0 : 495.0;
+        this.salesTaxAmount = vehicleSold.getPrice() * SALES_TAX_RATE;
+    }
     @Override
 public double getTotalPrice() {
     return getVehicleSold().getPrice() + salesTaxAmount + recordingFee + processingFee;
@@ -27,4 +40,7 @@ public double getTotalPrice() {
             return 0.0;
         }
     }
+
+    // Additional Getters for fields unique to SalesContract
+    public boolean isFinanceOption() { return financeOption; }
 }

@@ -1,7 +1,18 @@
 package com.pluralsight;
 
-public class LeaseContract {
-    @Override
+public class LeaseContract extends Contract {
+    private static final double LEASE_FEE_RATE = 0.07;
+    private static final double LEASE_INTEREST_RATE = 4.0 / 1200;
+    private static final int LEASE_TERM = 36;
+    private double expectedEndingValue;
+    private double leaseFee;
+
+    // Constructor
+    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
+        super(date, customerName, customerEmail, vehicleSold);
+        this.expectedEndingValue = vehicleSold.getPrice() * 0.5;
+        this.leaseFee = vehicleSold.getPrice() * LEASE_FEE_RATE;
+    }    @Override
     public double getTotalPrice() {
         return (getVehicleSold().getPrice() - expectedEndingValue) + leaseFee;
     }
@@ -15,4 +26,7 @@ public class LeaseContract {
         monthlyPayment /= 100;
         return monthlyPayment;
     }
+    // Additional Getters for fields unique to LeaseContract
+    public double getExpectedEndingValue() { return expectedEndingValue; }
+    public double getLeaseFee() { return leaseFee; }
 }
