@@ -40,7 +40,7 @@ public class Dealership {
         return new ArrayList<>(inventory);
     }
 
-  
+
 
 
     // Search stubs
