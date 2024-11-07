@@ -103,6 +103,15 @@ public class Dealership {
         }
         return results;
     }
+    public Vehicle getVehicleByVin(int vin) {
+        for (Vehicle vehicle : inventory) { // Assuming 'inventory' is the list of vehicles.
+            if (vehicle.getVin() == vin) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
 
     // Stub for removeVehicle method
     public void removeVehicle(Vehicle vehicle) {

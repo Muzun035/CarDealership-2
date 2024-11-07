@@ -2,6 +2,8 @@ package com.pluralsight;
 
 import java.util.List;
 import java.util.Scanner;
+import com.pluralsight.ContractFileManager;
+
 
 public class UserInterface {
     private Dealership dealership;
@@ -9,9 +11,15 @@ public class UserInterface {
 
     private DealershipFileManager fileManager;
 
+    private ContractFileManager contractFileManager;
+
     public UserInterface() {
-        fileManager = new DealershipFileManager();  // Initializes fileManager
+        System.out.println("Initializing UserInterface...");
+        scanner = new Scanner(System.in);
+        fileManager = new DealershipFileManager();
+        contractFileManager = new ContractFileManager(); // Ensure this is properly instantiated
         init();
+        System.out.println("UserInterface initialized.");
     }
     private void init() {
         DealershipFileManager fileManager = new DealershipFileManager();
@@ -35,7 +43,8 @@ public class UserInterface {
                 case "7": processGetByVehicleTypeRequest(); break;
                 case "8": processAddVehicleRequest(); break;
                 case "9": processRemoveVehicleRequest(); break;
-                case "10": running = false; break;
+                case "10": processAddContractRequest(); break;
+                case "11": running = false; break;
                 default: System.out.println("Invalid option. Please try again.");
             }
         }
@@ -54,7 +63,8 @@ public class UserInterface {
         System.out.println("7. Find vehicles by type");
         System.out.println("8. Add a vehicle");
         System.out.println("9. Remove a vehicle");
-        System.out.println("10. Quit");
+        System.out.println("10. Create a sales or lease contract");
+        System.out.println("11. Quit");
         System.out.print("Enter your choice: ");
     }
 
@@ -181,7 +191,46 @@ public class UserInterface {
         }
     }
 
-    // Helper method to display a list of vehicles
+    private void processAddContractRequest() {
+        System.out.print("Enter VIN of the vehicle to create a contract: ");
+        int vin = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
+        if (vehicle == null) {
+            System.out.println("Vehicle not found.");
+            return;
+        }
+
+        System.out.print("Is this a sale or lease? (sale/lease): ");
+        String type = scanner.nextLine().trim().toLowerCase();
+        System.out.print("Enter customer name: ");
+        String customerName = scanner.nextLine().trim();
+        System.out.print("Enter customer email: ");
+        String customerEmail = scanner.nextLine().trim();
+
+        Contract contract;
+        if (type.equals("sale")) {
+            System.out.print("Finance option (yes/no): ");
+            boolean financeOption = scanner.nextLine().trim().equalsIgnoreCase("yes");
+            contract = new SalesContract(java.time.LocalDate.now().toString(), customerName, customerEmail, vehicle, financeOption);
+        } else if (type.equals("lease")) {
+            if (vehicle.getYear() < 2021) {
+                System.out.println("Cannot lease vehicles older than 3 years.");
+                return;
+            }
+            contract = new LeaseContract(java.time.LocalDate.now().toString(), customerName, customerEmail, vehicle);
+        } else {
+            System.out.println("Invalid contract type.");
+            return;
+        }
+        contractFileManager.saveContract(contract);
+        dealership.removeVehicle(vehicle);
+        fileManager.saveDealership(dealership);
+        System.out.println("Contract created and vehicle removed from inventory.");
+    }
+
+
+        // Helper method to display a list of vehicles
     private void displayVehicles(List<Vehicle> vehicles) {
         for (Vehicle vehicle : vehicles) {
             System.out.printf("VIN: %d, Year: %d, Make: %s, Model: %s, Type: %s, Color: %s, Odometer: %d, Price: $%.2f%n",

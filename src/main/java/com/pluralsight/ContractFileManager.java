@@ -8,7 +8,7 @@ public class ContractFileManager {
     private static final String CONTRACT_FILE = "contracts.csv";
 
     public void saveContract(Contract contract) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(CONTRACT_FILE, true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("contracts.csv", true))) {
             if (contract instanceof SalesContract) {
                 SalesContract sale = (SalesContract) contract;
                 writer.printf("SALE|%s|%s|%s|%d|%.2f|%.2f|%s%n",
@@ -25,6 +25,7 @@ public class ContractFileManager {
             System.out.println("Error saving contract: " + e.getMessage());
         }
     }
+
 
     public List<Contract> loadContracts() {
         List<Contract> contracts = new ArrayList<>();
