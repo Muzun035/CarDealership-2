@@ -67,9 +67,9 @@ The application offers the following functionalities:
 
 Include screenshots or GIFs demonstrating the application in action (e.g., listing all vehicles, searching by criteria, adding/removing vehicles, creating a sales/lease contract).
 
-- Application Screenshot: ![p0qfme2o.mj3.png](p0qfme2o.mj3.png) <!-- Replace with actual image path -->
-- Search Vehicle: ![emmwa0yk.opx.png](emmwa0yk.opx.png) <!-- Replace with actual image path -->
-- Create Contract: ![lz5riduz.4id.png](lz5riduz.4id.png) <!-- Replace with actual image path -->
+- Application Screenshot: ![w524o4f0.dsb.png](w524o4f0.dsb.png)
+- Search Vehicle: ![znawcehz.jl0.png](znawcehz.jl0.png)
+- Create Contract: ![u5asqpl0.h5c.png](u5asqpl0.h5c.png)
 
 ## Future Work
 
